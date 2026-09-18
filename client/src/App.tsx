@@ -9,8 +9,9 @@ import WriterStudio from "./pages/WriterStudio";
 import ProfilePage from "./pages/ProfilePage";
 import BookStudio from "./pages/BookStudio";
 import AdminBooks from "./pages/AdminBooks";
+import AdminModeration from "./pages/AdminModeration";
 
 function Router() { return <Switch>
-  <Route path="/" component={Home} /><Route path="/discover" component={Discover} /><Route path="/library" component={Library} /><Route path="/create" component={WriterStudio} /><Route path="/write" component={WriterStudio} /><Route path="/studio/books" component={BookStudio} /><Route path="/admin/books" component={AdminBooks} /><Route path="/profile" component={ProfilePage} /><Route path="/community" component={Community} /><Route path="/notifications" component={Notifications} /><Route path="/authors/:slug" component={AuthorPage} /><Route path="/journal/:slug" component={JournalPage} /><Route path="/book/:id" component={BookDetail} /><Route path="/read/:id" component={Reader} /><Route component={NotFoundPage} />
+  <Route path="/" component={Home} /><Route path="/discover" component={Discover} /><Route path="/library" component={Library} /><Route path="/create" component={WriterStudio} /><Route path="/write" component={WriterStudio} /><Route path="/studio/books" component={BookStudio} /><Route path="/admin/books" component={AdminBooks} /><Route path="/admin/moderation" component={AdminModeration} /><Route path="/profile" component={ProfilePage} /><Route path="/community" component={Community} /><Route path="/notifications" component={Notifications} /><Route path="/authors/:slug" component={AuthorPage} /><Route path="/journal/:slug" component={JournalPage} /><Route path="/book/:id" component={BookDetail} /><Route path="/read/:id" component={Reader} /><Route component={NotFoundPage} />
 </Switch>; }
 export default function App() { return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster position="bottom-right" /><Router /></TooltipProvider></ThemeProvider></ErrorBoundary>; }
