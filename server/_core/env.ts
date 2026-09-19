@@ -8,3 +8,17 @@ export const ENV = {
   forgeApiUrl: process.env.BUILT_IN_FORGE_API_URL ?? "",
   forgeApiKey: process.env.BUILT_IN_FORGE_API_KEY ?? "",
 };
+
+export function validateRuntimeConfig() {
+  const required = [
+    ["DATABASE_URL", ENV.databaseUrl],
+    ["JWT_SECRET", ENV.cookieSecret],
+    ["OAUTH_SERVER_URL", ENV.oAuthServerUrl],
+    ["VITE_APP_ID", ENV.appId],
+  ] as const;
+  const missing = required.filter(([, value]) => !value).map(([name]) => name);
+  if (!missing.length) return;
+  const message = `Missing runtime configuration: ${missing.join(", ")}`;
+  if (ENV.isProduction) throw new Error(message);
+  console.warn(`[Config] Development mode: ${message}`);
+}
