@@ -22,7 +22,7 @@ export default function BookStudio() {
   const [coverUrl, setCoverUrl] = useState("");
   const [chapters, setChapters] = useState<Chapter[]>([{ title: "Chapter One", body: "" }]);
 
-  const save = trpc.writer.saveBook.useMutation({ onSuccess: (result) => { setBookId(result.id); void utils.writer.books.invalidate(); toast.success("Book draft saved"); }, onError: (error) => toast.error(error.message) });
+  const save = trpc.writer.saveBook.useMutation({ onSuccess: (result) => { if (!result.success) { toast.error("Database is unavailable; draft was not saved"); return; } setBookId(result.id); void utils.writer.books.invalidate(); toast.success("Book draft saved"); }, onError: (error) => toast.error(error.message) });
   const submit = trpc.writer.submitBook.useMutation({ onSuccess: () => { void utils.writer.books.invalidate(); toast.success("Your story has been submitted for review."); }, onError: (error) => toast.error(error.message) });
   const upload = trpc.uploads.cover.useMutation({ onSuccess: (result) => { setCoverUrl(result.url); toast.success("Cover uploaded"); }, onError: (error) => toast.error(error.message) });
 
