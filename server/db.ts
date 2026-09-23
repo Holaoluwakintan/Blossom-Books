@@ -168,3 +168,30 @@ export async function updateMyProfile(userId: number, input: { name?: string; bi
   const values = { name: input.name?.trim() || undefined, bio: input.bio?.trim() || null, location: input.location?.trim() || null, website: input.website?.trim() || null, profileVisibility: input.profileVisibility, emailNotifications: input.emailNotifications === undefined ? undefined : input.emailNotifications ? 1 : 0 };
   await db.update(users).set(values).where(eq(users.id, userId)); return { success: true as const };
 }
+
+export async function deleteAccount(userId: number) {
+  const db = await getDb(); if (!db) return { success: false as const };
+  return db.transaction(async (tx) => {
+    const authoredStories = await tx.select({ id: stories.id }).from(stories).where(eq(stories.authorId, userId));
+    const storyIds = authoredStories.map((story) => story.id);
+    await tx.delete(savedStories).where(eq(savedStories.userId, userId));
+    await tx.delete(reviews).where(eq(reviews.userId, userId));
+    await tx.delete(comments).where(eq(comments.userId, userId));
+    await tx.delete(readingProgress).where(eq(readingProgress.userId, userId));
+    await tx.delete(follows).where(or(eq(follows.followerId, userId), eq(follows.followingId, userId)));
+    await tx.delete(notifications).where(or(eq(notifications.recipientId, userId), eq(notifications.actorId, userId)));
+    await tx.delete(reports).where(eq(reports.reporterId, userId));
+    await tx.delete(announcements).where(eq(announcements.authorId, userId));
+    await tx.delete(journals).where(eq(journals.authorId, userId));
+    if (storyIds.length) {
+      await tx.delete(storyChapters).where(inArray(storyChapters.storyId, storyIds));
+      await tx.delete(savedStories).where(inArray(savedStories.storyId, storyIds));
+      await tx.delete(reviews).where(inArray(reviews.storyId, storyIds));
+      await tx.delete(comments).where(inArray(comments.storyId, storyIds));
+      await tx.delete(readingProgress).where(inArray(readingProgress.storyId, storyIds));
+      await tx.delete(stories).where(inArray(stories.id, storyIds));
+    }
+    await tx.delete(users).where(eq(users.id, userId));
+    return { success: true as const };
+  });
+}

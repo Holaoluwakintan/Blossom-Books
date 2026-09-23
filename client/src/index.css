@@ -212,6 +212,12 @@ h1 em, h2 em { color: var(--accent); font-style: italic; }
 .settings-card input, .settings-card textarea, .settings-card select { width: 100%; border: 1px solid #e2dad5; border-radius: 7px; outline: 0; background: #fbfaf8; color: var(--ink); padding: 11px 12px; font-size: 13px; }
 .settings-card textarea { resize: vertical; line-height: 1.55; }
 .settings-card input:focus, .settings-card textarea:focus, .settings-card select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(216,117,88,.12); }
+.account-danger-zone { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 4px; padding: 18px; border: 1px solid #e8c9c2; border-radius: 10px; background: #fff8f6; color: #7c3f35; }
+.account-danger-zone strong { display: block; margin-bottom: 5px; color: #6b3028; }
+.account-danger-zone p { max-width: 520px; margin: 0; color: #8b625b; font-size: 12px; line-height: 1.55; }
+.button-danger { border: 1px solid #c86e5e; background: #fff; color: #a94739; }
+.button-danger:hover { background: #a94739; color: #fff; }
+.button-danger:disabled { cursor: wait; opacity: .6; }
 .settings-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .settings-choice { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px; border-radius: 8px; background: #f7f3ef; }
 .settings-choice strong, .settings-toggle strong { display: block; color: var(--ink); font-size: 12px; }
